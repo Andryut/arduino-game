@@ -22,86 +22,86 @@ const boolean O[] = {1,1,
                	     1,1};
 
 const boolean S1[] = {0,1,1,
-                1,1,0,
-                0,0,0};
+                      1,1,0,
+                      0,0,0};
 const boolean S2[] = {0,1,0,
-                0,1,1,
-                0,0,1};
+                      0,1,1,
+                      0,0,1};
 const boolean S3[] = {0,0,0,
-                0,1,1,
-                1,1,0};
+                      0,1,1,
+                      1,1,0};
 const boolean S4[] = {1,0,0,
-                1,1,0,
-                0,1,0};
+                      1,1,0,
+                      0,1,0};
 
 const boolean Z1[] = {1,1,0,
-                0,1,1,
-                0,0,0};
+                      0,1,1,
+                      0,0,0};
 const boolean Z2[] = {0,0,1,
-                0,1,1,
-                0,1,0};
+                      0,1,1,
+                      0,1,0};
 const boolean Z3[] = {0,0,0,
-                1,1,0,
-                0,1,1};
+                      1,1,0,
+                      0,1,1};
 const boolean Z4[] = {0,1,0,
-                1,1,0,
-                1,0,0};
+                      1,1,0,
+                      1,0,0};
 
 const boolean L1[] = {0,0,0,
-                0,0,1,
-                1,1,1};
+                      0,0,1,
+                      1,1,1};
 const boolean L2[] = {1,0,0,
-                1,0,0,
-                1,1,0};
+                      1,0,0,
+                      1,1,0};
 const boolean L3[] = {1,1,1,
-                1,0,0,
-                0,0,0};
+                      1,0,0,
+                      0,0,0};
 const boolean L4[] = {0,1,1,
-                0,0,1,
-                0,0,1};
+                      0,0,1,
+                      0,0,1};
 
 const boolean J1[] = {0,0,0,
-                1,0,0,
-                1,1,1};
+                      1,0,0,
+                      1,1,1};
 const boolean J2[] = {1,1,0,
-                1,0,0,
-                1,0,0};
+                      1,0,0,
+                      1,0,0};
 const boolean J3[] = {1,1,1,
-                0,0,1,
-                0,0,0};
+                      0,0,1,
+                      0,0,0};
 const boolean J4[] = {0,0,1,
-                0,0,1,
-                0,1,1};
+                      0,0,1,
+                      0,1,1};
 
 const boolean T1[] = {0,1,0,
-                1,1,1,
-                0,0,0};
+                      1,1,1,
+                      0,0,0};
 const boolean T2[] = {0,1,0,
-                0,1,1,
-                0,1,0};
+                      0,1,1,
+                      0,1,0};
 const boolean T3[] = {0,0,0,
-                1,1,1,
-                0,1,0};
+                      1,1,1,
+                      0,1,0};
 const boolean T4[] = {0,1,0,
-                1,1,0,
-                0,1,0};
+                      1,1,0,
+                      0,1,0};
 
 const boolean I1[] = {0,1,0,0,
-                0,1,0,0,
-                0,1,0,0,
-                0,1,0,0};
+                      0,1,0,0,
+                      0,1,0,0,
+                      0,1,0,0};
 const boolean I2[] = {0,0,0,0,
-                1,1,1,1,
-                0,0,0,0,
-                0,0,0,0};
+                      1,1,1,1,
+                      0,0,0,0,
+                      0,0,0,0};
 const boolean I3[] = {0,0,1,0,
-                0,0,1,0,
-                0,0,1,0,
-                0,0,1,0};
+                      0,0,1,0,
+                      0,0,1,0,
+                      0,0,1,0};
 const boolean I4[] = {0,0,0,0,
-                0,0,0,0,
-                1,1,1,1,
-                0,0,0,0};
+                      0,0,0,0,
+                      1,1,1,1,
+                      0,0,0,0};
 boolean stage[] = {
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
@@ -125,7 +125,7 @@ boolean stage[] = {
 0,0,0,0,0,0,0,0,0,0,
 };
 
-boolean* pieces(byte piece, byte rot) {
+const boolean* pieces(byte piece, byte rot) {
   if(piece == 0) { 
     return &O[0];
   } else if(piece == 1) {
@@ -193,26 +193,23 @@ boolean* pieces(byte piece, byte rot) {
 }
 
 void print_bit(byte x, byte y) {
-  short mask[] = {-1, 0, 1, 2};
   for(int i = 0; i < 16; i++)
-    display.drawPixel((98-5*y) + i/4, (9+5*x) + i%4, WHITE);
+    display.drawPixel((101-5*y) - i/4, (8+5*x) + i%4, WHITE);
 }
 
 void print_bit_matrix(byte p, byte rot, byte x, byte y) {
-  boolean* piece = pieces(p, rot);
-  for(int  i = 0; i < sizes[p]*sizes[p]; i ++){
-    if (piece[i]){
+  const boolean* piece = pieces(p, rot);
+  for(int  i = 0; i < sizes[p]*sizes[p]; i ++)
+    if (piece[i])
       print_bit(x + i%sizes[p], y + i/sizes[p]);
-    }
-  }
 }
 
 void setup_game() {
   for(int i = 1; i < 104; i++) {
-    display.drawPixel(i, 7, WHITE);
+    display.drawPixel(i, 6, WHITE);
     display.drawPixel(i, 58, WHITE);
   }
-  for(int i = 8; i < 58; i++) {
+  for(int i = 6; i < 59; i++) {
     display.drawPixel(1, i, WHITE);
     display.drawPixel(103, i, WHITE);
   }
