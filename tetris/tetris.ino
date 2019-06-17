@@ -11,11 +11,11 @@
 #define OLED_RESET  11
 #define OLED_DC     12
 #define OLED_CS     13
-#define JOY_X       A0
-#define JOY_Y       A1
+#define JOY_X       A1
+#define JOY_Y       A0
 #define JOY_B       8
-#define MID_Y       502
-#define MID_X       517
+#define MID_Y       512
+#define MID_X       512
 const byte sizes[]  = {2, 3, 3, 3, 3, 3, 4};
 
 const boolean O1[]  = {1, 1,
@@ -492,13 +492,13 @@ void setup_scene() {
     display.drawPixel(0, i, WHITE);
     display.drawPixel(102, i, WHITE);
   }
-  print_string("SCORE", 0, 0);
-  print_string("NEXT", 49, 0);
+  print_string(F("SCORE"), 0, 0);
+  print_string(F("NEXT"), 49, 0);
 }
 
 void setup_game() {
   setup_variables();
-  if (!display.begin(SSD1306_SWITCHCAPVCC))
+  if (!display.begin())
     while (1);
   display.clearDisplay();
   setup_scene();
@@ -515,8 +515,8 @@ void loop() {
   vy = analogRead(JOY_Y);
   button = digitalRead(JOY_B);
   if (button == LOW) rotation = (rotation + 1) % 4;
-  vx = (vx > MID_X + 10) ? -1 : ((vx < MID_X - 10) ? 1 : 0);
-  vy = (vy > MID_Y + 10) ? 1 : ((vy < MID_Y - 10) ? -1 : 0);
+  vx = (vx > MID_X + 100) ? -1 : ((vx < MID_X - 100) ? 1 : 0);
+  vy = (vy > MID_Y + 100) ? 1 : ((vy < MID_Y - 100) ? -1 : 0);
   x = x + vx;
   x = (x < 0) ? 0 : ((x > 10 - sizes[5]) ? (10 - sizes[5]) : x);
   y = y + vy;
@@ -524,12 +524,12 @@ void loop() {
   score += 100000;
   print_bit_matrix(5, rotation, x, y);
   print_number(score, 0, 6);
-  print_next(kappa % 7);
+  //print_next(kappa % 7);
 
   display.display();
   delay(100);
 
   clear_bit_matrix(5, rotation, x, y);
   //clear_next(kappa % 7);
-  kappa++;
+  //kappa++;
 }
